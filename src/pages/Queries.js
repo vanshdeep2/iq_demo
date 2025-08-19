@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Send, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Search, Send } from 'lucide-react';
 
 const Queries = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,16 +81,16 @@ const Queries = () => {
       </div>
 
       {/* Search Suggestions */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Try asking:</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="space-y-2">
+        <p className="text-sm text-gray-500">Try asking:</p>
+        <div className="flex flex-wrap gap-2">
           {searchSuggestions.map((suggestion, index) => (
             <button
               key={index}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors duration-200"
+              className="text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1 rounded-full border border-gray-200 transition-colors duration-200"
             >
-              <p className="text-gray-700 font-medium">{suggestion}</p>
+              {suggestion}
             </button>
           ))}
         </div>

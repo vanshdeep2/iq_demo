@@ -4,6 +4,14 @@ import { Search, Send, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 const Queries = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
+  const searchSuggestions = [
+    'Show me call volume trends for the last 30 days',
+    'What are the top customer complaints?',
+    'Agent performance metrics by department',
+    'Customer satisfaction scores over time',
+    'Which products have the most support issues?'
+  ];
+
   const queries = [
     {
       id: 1,
@@ -41,6 +49,10 @@ const Queries = () => {
     }
   };
 
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -65,6 +77,22 @@ const Queries = () => {
           <button className="p-2 text-gray-400 hover:text-gray-600">
             <Send className="h-5 w-5" />
           </button>
+        </div>
+      </div>
+
+      {/* Search Suggestions */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Try asking:</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {searchSuggestions.map((suggestion, index) => (
+            <button
+              key={index}
+              onClick={() => handleSuggestionClick(suggestion)}
+              className="text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors duration-200"
+            >
+              <p className="text-gray-700 font-medium">{suggestion}</p>
+            </button>
+          ))}
         </div>
       </div>
 

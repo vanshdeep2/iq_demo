@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Send, Check, Edit, Flag, HelpCircle } from 'lucide-react';
+import ActionCard from '../components/ActionCard';
 
 const InsightPage = () => {
   const { id } = useParams();
@@ -19,6 +20,36 @@ const InsightPage = () => {
       'Consider adding self-service options'
     ]
   };
+
+  const suggestedActions = [
+    {
+      id: 1,
+      title: 'Call flow audit',
+      reasoning: 'High handling time on voice channel; analysis identified bottleneck in escalation process.',
+      score: 8.9,
+      confidence: 'High',
+      effort: 'Low',
+      tags: ['Quick', 'Process Improvement']
+    },
+    {
+      id: 2,
+      title: 'Implement AI-powered response suggestions',
+      reasoning: 'Email response time can be reduced by 25% with AI assistance based on historical data.',
+      score: 7.5,
+      confidence: 'High',
+      effort: 'Medium',
+      tags: ['AI', 'Efficiency', 'Automation']
+    },
+    {
+      id: 3,
+      title: 'Agent stress management program',
+      reasoning: '45% of agents report high stress levels, impacting performance and retention.',
+      score: 8.2,
+      confidence: 'Medium',
+      effort: 'High',
+      tags: ['Wellbeing', 'Retention', 'Performance']
+    }
+  ];
 
   return (
     <div className="space-y-6">
@@ -62,6 +93,16 @@ const InsightPage = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+
+      {/* Suggested Actions */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Suggested Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {suggestedActions.map((action) => (
+            <ActionCard key={action.id} action={action} />
+          ))}
         </div>
       </div>
 

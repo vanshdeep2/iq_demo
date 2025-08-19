@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
           {!sidebarCollapsed && (
             <div className="flex items-center space-x-3">
               {/* Quantanite Logo */}
-              <img src="/quantanite-logo.png" alt="Quantanite Logo" className="w-40 h-24 object-contain" />
+              <img src="/quantanite-logo.png" alt="Quantanite Logo" className="w-48 h-32 object-contain" />
             </div>
           )}
           <button

@@ -1,107 +1,60 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-const FilterModal = ({ isOpen, onClose, filters, onFiltersChange }) => {
+const FilterModal = ({ isOpen, onClose, onApply }) => {
   if (!isOpen) return null;
-
-  const categories = ['all', 'Financial', 'Customer', 'Regional', 'Operational'];
-  const confidenceLevels = ['all', 'High', 'Medium', 'Low'];
-  const impactLevels = ['all', 'High', 'Medium', 'Low'];
-
-  const handleFilterChange = (filterType, value) => {
-    onFiltersChange({
-      ...filters,
-      [filterType]: value
-    });
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Filter Insights</h2>
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">Filter Options</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
           >
-            <X className="w-6 h-6" />
+            <X size={20} />
           </button>
         </div>
-
-        <div className="space-y-6">
-          {/* Category Filter */}
+        
+        <div className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
             </label>
-            <select
-              value={filters.category}
-              onChange={(e) => handleFilterChange('category', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category === 'all' ? 'All Categories' : category}
-                </option>
-              ))}
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500">
+              <option value="">All Categories</option>
+              <option value="performance">Performance</option>
+              <option value="quality">Quality</option>
+              <option value="customer">Customer</option>
             </select>
           </div>
-
-          {/* Confidence Filter */}
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Confidence Level
+              Status
             </label>
-            <select
-              value={filters.confidence}
-              onChange={(e) => handleFilterChange('confidence', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              {confidenceLevels.map((level) => (
-                <option key={level} value={level}>
-                  {level === 'all' ? 'All Levels' : level}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Impact Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Impact Level
-            </label>
-            <select
-              value={filters.impact}
-              onChange={(e) => handleFilterChange('impact', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              {impactLevels.map((level) => (
-                <option key={level} value={level}>
-                  {level === 'all' ? 'All Levels' : level}
-                </option>
-              ))}
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500">
+              <option value="">All Status</option>
+              <option value="completed">Completed</option>
+              <option value="in-progress">In Progress</option>
+              <option value="pending">Pending</option>
             </select>
           </div>
         </div>
-
-        <div className="flex justify-end space-x-3 mt-6">
+        
+        <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200">
           <button
             onClick={onClose}
-            className="btn-secondary"
+            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            Close
+            Cancel
           </button>
           <button
-            onClick={() => {
-              onFiltersChange({
-                category: 'all',
-                confidence: 'all',
-                impact: 'all'
-              });
-            }}
-            className="btn-primary"
+            onClick={onApply}
+            className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
           >
-            Clear All
+            Apply Filters
           </button>
         </div>
       </div>

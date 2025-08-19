@@ -1,80 +1,46 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const InsightCard = ({ insight }) => {
-  const navigate = useNavigate();
-
-  const getConfidenceColor = (confidence) => {
-    switch (confidence) {
-      case 'High': return 'text-green-600 bg-green-100';
-      case 'Medium': return 'text-yellow-600 bg-yellow-100';
-      case 'Low': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+  const getTrendIcon = (trend) => {
+    switch (trend) {
+      case 'up':
+        return <TrendingUp className="w-5 h-5 text-green-500" />;
+      case 'down':
+        return <TrendingDown className="w-5 h-5 text-red-500" />;
+      default:
+        return <Minus className="w-5 h-5 text-gray-500" />;
     }
   };
 
-  const getImpactColor = (impact) => {
-    switch (impact) {
-      case 'High': return 'text-red-600 bg-red-100';
-      case 'Medium': return 'text-yellow-600 bg-yellow-100';
-      case 'Low': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+  const getTrendColor = (trend) => {
+    switch (trend) {
+      case 'up':
+        return 'text-green-600';
+      case 'down':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
     }
-  };
-
-  const getTrendIcon = (title) => {
-    if (title.toLowerCase().includes('increased') || title.toLowerCase().includes('growth')) {
-      return <TrendingUp className="w-4 h-4 text-green-500" />;
-    } else if (title.toLowerCase().includes('declined') || title.toLowerCase().includes('decreased')) {
-      return <TrendingDown className="w-4 h-4 text-red-500" />;
-    }
-    return <Minus className="w-4 h-4 text-gray-500" />;
   };
 
   return (
-    <div 
-      className="bg-white border border-gray-200 rounded-xl hover:shadow-lg transition-all duration-200 cursor-pointer overflow-hidden"
-      onClick={() => navigate(`/insight/${insight.id}`)}
-    >
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            {getTrendIcon(insight.title)}
-            <h3 className="text-xl font-semibold text-gray-900 leading-tight">{insight.title}</h3>
-          </div>
-        </div>
-        
-        <p className="text-gray-600 mb-4 leading-relaxed">{insight.summary}</p>
-        
-        <div className="flex items-center space-x-3 mb-4">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getConfidenceColor(insight.confidence)}`}>
-            {insight.confidence} Confidence
-          </span>
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getImpactColor(insight.impact)}`}>
-            {insight.impact} Impact
-          </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{insight.title}</h3>
+          <p className="text-gray-600 text-sm mb-3">{insight.description}</p>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
               {insight.category}
             </span>
+          </div>
         </div>
-
-        <div className="flex flex-wrap gap-2">
-          {insight.tags.map((tag, index) => (
-            <span 
-              key={index}
-              className="px-3 py-1 bg-gray-50 text-gray-700 text-sm rounded-lg border border-gray-200"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-      
-      <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
-        <div className="flex items-center justify-between text-sm text-gray-500">
-          <span>Click to view detailed analysis</span>
-          <span className="text-gray-600 font-medium">→</span>
+        <div className="flex items-center space-x-2">
+          {getTrendIcon(insight.trend)}
+          <span className={`text-lg font-bold ${getTrendColor(insight.trend)}`}>
+            {insight.value}
+          </span>
         </div>
       </div>
     </div>

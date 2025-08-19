@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Filter } from 'lucide-react';
 import InsightCard from '../components/InsightCard';
+import ActionCard from '../components/ActionCard';
 
 const Dashboard = () => {
   const [filters, setFilters] = useState({
@@ -86,6 +87,36 @@ const Dashboard = () => {
     }
   ];
 
+  const suggestedActions = [
+    {
+      id: 1,
+      title: 'Call flow audit',
+      reasoning: 'High handling time on voice channel; analysis identified bottleneck in escalation process.',
+      score: 8.9,
+      confidence: 'High',
+      effort: 'Low',
+      tags: ['Quick', 'Process Improvement']
+    },
+    {
+      id: 2,
+      title: 'Implement AI-powered response suggestions',
+      reasoning: 'Email response time can be reduced by 25% with AI assistance based on historical data.',
+      score: 7.5,
+      confidence: 'High',
+      effort: 'Medium',
+      tags: ['AI', 'Efficiency', 'Automation']
+    },
+    {
+      id: 3,
+      title: 'Agent stress management program',
+      reasoning: '45% of agents report high stress levels, impacting performance and retention.',
+      score: 8.2,
+      confidence: 'Medium',
+      effort: 'High',
+      tags: ['Wellbeing', 'Retention', 'Performance']
+    }
+  ];
+
   const filteredInsights = insights.filter(insight => {
     if (filters.category !== 'all' && insight.category !== filters.category) return false;
     if (filters.confidence !== 'all' && insight.confidence !== filters.confidence) return false;
@@ -160,6 +191,27 @@ const Dashboard = () => {
           >
             Clear All Filters
           </button>
+        </div>
+      </div>
+
+      {/* Suggested Actions */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-8 py-6 border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900">Suggested Actions</h2>
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+                {suggestedActions.length} actions
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {suggestedActions.map((action) => (
+              <ActionCard key={action.id} action={action} />
+            ))}
+          </div>
         </div>
       </div>
 

@@ -24,7 +24,10 @@ const ActionCard = ({ action }) => {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-200">
+    <div 
+      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+      onClick={() => navigate(`/action/${action.id}`)}
+    >
       <div className="space-y-5">
         {/* Header */}
         <div>
@@ -67,7 +70,6 @@ const ActionCard = ({ action }) => {
         {/* Action Buttons */}
         <div className="flex space-x-3">
           <button
-            onClick={() => navigate(`/action/${action.id}`)}
             className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
           >
             <Check className="w-5 h-5" />

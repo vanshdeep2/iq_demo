@@ -5,6 +5,9 @@ import { BarChart3, FileText, Search, ChevronLeft, ChevronRight } from 'lucide-r
 const Layout = ({ children }) => {
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
+  // Check if we're on a detailed page that needs less top padding
+  const isDetailedPage = location.pathname.includes('/insight/') || location.pathname.includes('/action/');
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: BarChart3 },
@@ -21,7 +24,12 @@ const Layout = ({ children }) => {
           {!sidebarCollapsed && (
             <div className="flex items-center space-x-3">
               {/* Quantanite Logo */}
-              <img src="/quantanite-logo.png" alt="Quantanite Logo" className="w-48 h-32 object-contain" />
+              <img 
+                src="/quantanite-logo.png?v=5" 
+                alt="Quantanite Logo" 
+                className="w-56 h-36 object-contain"
+                style={{ width: '224px', height: '144px', maxWidth: 'none' }}
+              />
             </div>
           )}
           <button
@@ -43,7 +51,7 @@ const Layout = ({ children }) => {
                 className={`sidebar-item ${isActive ? 'active' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}
                 title={sidebarCollapsed ? item.name : ''}
               >
-                <item.icon className={`w-5 h-5 ${sidebarCollapsed ? '' : 'mr-3'}`} />
+                <item.icon className={`w-6 h-6 ${sidebarCollapsed ? '' : 'mr-3'}`} />
                 {!sidebarCollapsed && item.name}
               </Link>
             );
@@ -53,7 +61,7 @@ const Layout = ({ children }) => {
 
       {/* Main content */}
       <div className="flex-1 overflow-auto bg-gray-50">
-        <main className="p-8">
+        <main className={`p-8 ${isDetailedPage ? 'pt-14' : 'pt-20'}`}>
           {children}
         </main>
       </div>

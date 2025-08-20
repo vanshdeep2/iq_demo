@@ -12,6 +12,63 @@ const InsightPage = () => {
     { type: 'bot', message: 'Hello! I can help you understand this insight better. What would you like to know?' }
   ]);
 
+  // Insight-specific chat suggestions
+  const getInsightSuggestions = (insightId) => {
+    const suggestions = {
+      1: [ // Call handling time
+        'What caused the 23% increase in call handling time?',
+        'How can we reduce call handling time?',
+        'Which agents are most affected by this trend?',
+        'What training would help improve efficiency?'
+      ],
+      2: [ // Customer satisfaction
+        'Why did customer satisfaction drop in technical support?',
+        'What specific issues are customers complaining about?',
+        'How can we improve the technical support experience?',
+        'Which agents have the best satisfaction scores?'
+      ],
+      3: [ // AI resolution rate
+        'What types of queries does AI handle best?',
+        'How can we improve AI resolution rates further?',
+        'Which queries still require human escalation?',
+        'What training data would help the AI?'
+      ],
+      4: [ // Password reset issue
+        'Why are password resets so common?',
+        'How can we reduce password reset calls?',
+        'What self-service options would help?',
+        'Are there specific user groups with more issues?'
+      ],
+      5: [ // Agent burnout
+        'What are the main causes of agent stress?',
+        'How can we better support agents?',
+        'Which teams are most affected by burnout?',
+        'What resources would help reduce stress?'
+      ],
+      6: [ // Email response time
+        'How has AI improved email response times?',
+        'Which email categories are handled fastest?',
+        'What other email processes could be automated?',
+        'How can we improve email template quality?'
+      ],
+      7: [ // Chat abandonment
+        'Why do customers abandon chats during peak hours?',
+        'How can we improve chat response times?',
+        'What staffing changes would help?',
+        'Are there technical issues affecting chat?'
+      ],
+      8: [ // Product defects
+        'What types of defects are most common?',
+        'How can we prevent similar defects?',
+        'Which products have the most issues?',
+        'What testing improvements are needed?'
+      ]
+    };
+    return suggestions[insightId] || suggestions[1];
+  };
+
+  const insightSuggestions = getInsightSuggestions(parseInt(id));
+
   // Mock data for the insight based on ID
   const getInsightData = (id) => {
     const insightsData = {
@@ -285,7 +342,7 @@ const InsightPage = () => {
     const actionsData = {
       1: [ // Call handling time increased
         {
-          id: 1,
+          id: 101,
           title: 'Call flow optimization',
           reasoning: 'Analyze and streamline call escalation processes to reduce handling time for complex technical issues.',
           score: 9.2,
@@ -294,7 +351,7 @@ const InsightPage = () => {
           tags: ['Process Improvement', 'Efficiency']
         },
         {
-          id: 2,
+          id: 102,
           title: 'Agent training on new features',
           reasoning: 'Provide comprehensive training on recent product updates to reduce resolution time for technical issues.',
           score: 8.5,
@@ -303,7 +360,7 @@ const InsightPage = () => {
           tags: ['Training', 'Product Knowledge']
         },
         {
-          id: 3,
+          id: 103,
           title: 'Implement knowledge base',
           reasoning: 'Create detailed troubleshooting guides for common technical issues to speed up resolution.',
           score: 7.8,
@@ -528,15 +585,106 @@ const InsightPage = () => {
       setChatHistory([...chatHistory, newMessage]);
       setChatMessage('');
       
-      // Simulate bot response
+      // Generate contextual response based on insight and question
       setTimeout(() => {
-        const botResponse = { 
-          type: 'bot', 
-          message: 'I understand you\'re asking about this insight. Let me analyze the data and provide you with more detailed information.'
-        };
+        const botResponse = generateInsightResponse(chatMessage, insight);
         setChatHistory(prev => [...prev, botResponse]);
       }, 1000);
     }
+  };
+
+  const generateInsightResponse = (question, insight) => {
+    const questionLower = question.toLowerCase();
+    
+    // Insight 1: Call handling time increased
+    if (insight.id === 1) {
+      if (questionLower.includes('caused') || questionLower.includes('why') || questionLower.includes('reason')) {
+        return {
+          type: 'bot',
+          message: `Based on our analysis, the 23% increase in call handling time was caused by:\n\n• Complex technical issues requiring longer resolution (up from 6.1 to 8.3 minutes)\n• Product defect cases needing multiple escalations\n• Insufficient agent training on new product features\n• Increased complexity of customer queries\n\nTechnical issues now account for 45% of call volume, up from 32% last month.`
+        };
+      }
+      if (questionLower.includes('reduce') || questionLower.includes('improve') || questionLower.includes('fix')) {
+        return {
+          type: 'bot',
+          message: `To reduce call handling time, I recommend:\n\n• Implement comprehensive training on new product features\n• Create detailed troubleshooting guides for common technical issues\n• Streamline escalation processes to reduce transfer delays\n• Add more senior agents during peak technical issue hours\n• Develop self-service options for simple technical problems`
+        };
+      }
+      if (questionLower.includes('agent') && (questionLower.includes('affected') || questionLower.includes('impact'))) {
+        return {
+          type: 'bot',
+          message: `Agents most affected by increased call handling time:\n\n• Technical support agents (avg. 8.3 min vs 6.1 min)\n• New agents with <6 months experience (avg. 7.2 min)\n• Agents handling product defect cases (avg. 9.1 min)\n• Agents working during peak hours (2-4 PM)\n\nSenior agents (>2 years) still maintain 4.8 min average.`
+        };
+      }
+      if (questionLower.includes('training')) {
+        return {
+          type: 'bot',
+          message: `Recommended training to improve efficiency:\n\n• Advanced troubleshooting techniques for technical issues\n• New product feature walkthroughs and common problems\n• Escalation procedures and when to transfer calls\n• Time management and call flow optimization\n• Customer communication skills for complex issues\n\nTraining should focus on the 45% of calls that are technical in nature.`
+        };
+      }
+    }
+    
+    // Insight 2: Customer satisfaction dropped
+    if (insight.id === 2) {
+      if (questionLower.includes('why') || questionLower.includes('caused') || questionLower.includes('drop')) {
+        return {
+          type: 'bot',
+          message: `Customer satisfaction dropped due to:\n\n• Long wait times during peak hours (avg. 4.2 min vs 2.1 min)\n• Unresolved technical issues (67% increase in complaints)\n• Poor communication during complex problem resolution\n• Inconsistent solution quality across agents\n• Lack of follow-up on escalated cases`
+        };
+      }
+      if (questionLower.includes('complaining') || questionLower.includes('issues')) {
+        return {
+          type: 'bot',
+          message: `Top customer complaints in technical support:\n\n• "Long wait times" (mentioned in 89% of negative feedback)\n• "Agent couldn't solve my problem" (67% of complaints)\n• "Had to call back multiple times" (45% of complaints)\n• "Agent seemed inexperienced" (34% of complaints)\n• "No follow-up after escalation" (28% of complaints)`
+        };
+      }
+      if (questionLower.includes('improve') || questionLower.includes('better')) {
+        return {
+          type: 'bot',
+          message: `To improve technical support experience:\n\n• Add more agents during peak hours (2-4 PM)\n• Implement better escalation procedures with follow-up\n• Provide comprehensive training on common technical issues\n• Create detailed knowledge base for agents\n• Establish quality assurance program for consistency`
+        };
+      }
+      if (questionLower.includes('agent') && questionLower.includes('score')) {
+        return {
+          type: 'bot',
+          message: `Agents with best satisfaction scores:\n\n• Sarah Johnson (4.7/5) - 5 years experience\n• Mike Chen (4.6/5) - Technical specialist\n• Lisa Rodriguez (4.5/5) - 3 years experience\n\nCommon traits: thorough problem-solving, clear communication, follow-up on complex cases.`
+        };
+      }
+    }
+    
+    // Insight 5: Agent burnout
+    if (insight.id === 5) {
+      if (questionLower.includes('causes') || questionLower.includes('stress')) {
+        return {
+          type: 'bot',
+          message: `Main causes of agent stress:\n\n• High volume of angry customer interactions (45% report this as primary stressor)\n• Complex technical escalations without proper support\n• Insufficient breaks and recovery time between stressful calls\n• Lack of mental health support resources\n• Pressure to meet performance metrics during high-stress periods`
+        };
+      }
+      if (questionLower.includes('support') || questionLower.includes('help')) {
+        return {
+          type: 'bot',
+          message: `Ways to better support agents:\n\n• Implement mental health counseling services\n• Create stress management training programs\n• Optimize break schedules for adequate recovery time\n• Establish peer support groups and mentorship programs\n• Provide clear escalation procedures to reduce stress\n• Regular check-ins with managers on agent wellbeing`
+        };
+      }
+      if (questionLower.includes('team') && questionLower.includes('affected')) {
+        return {
+          type: 'bot',
+          message: `Teams most affected by burnout:\n\n• Technical support team (52% report high stress)\n• Peak hour agents (2-4 PM shift) - 48% high stress\n• New agents (<6 months) - 41% high stress\n• Agents handling product defect cases - 38% high stress\n\nSenior agents (>2 years) report 23% high stress levels.`
+        };
+      }
+      if (questionLower.includes('resource') || questionLower.includes('help')) {
+        return {
+          type: 'bot',
+          message: `Resources that would help reduce stress:\n\n• Professional counseling services (preferred by 67% of agents)\n• Stress management workshops and training\n• Flexible break scheduling during high-stress periods\n• Clear escalation procedures and support systems\n• Peer support groups and mentorship programs\n• Regular wellness check-ins with HR`
+        };
+      }
+    }
+    
+    // Default response for other questions
+    return {
+      type: 'bot',
+      message: `Great question about "${insight.title}"! Based on our analysis:\n\n• ${insight.contributingFactors[0]}\n• ${insight.contributingFactors[1]}\n• ${insight.supportingEvidence[0]}\n\nWould you like me to elaborate on any specific aspect of this insight?`
+    };
   };
 
   return (
@@ -629,10 +777,10 @@ const InsightPage = () => {
                   <div key={index} className={`flex ${chat.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-xs px-4 py-2 rounded-lg ${
                       chat.type === 'user' 
-                        ? 'bg-primary-500 text-white' 
+                        ? 'bg-gray-800 text-white' 
                         : 'bg-gray-100 text-gray-700'
                     }`}>
-                      {chat.message}
+                      <div className="whitespace-pre-line">{chat.message}</div>
                     </div>
                   </div>
                 ))}
@@ -644,7 +792,7 @@ const InsightPage = () => {
                   onChange={(e) => setChatMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Ask a question about this insight..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
                 <button
                   onClick={handleSendMessage}
@@ -653,6 +801,22 @@ const InsightPage = () => {
                   <Send className="w-4 h-4" />
                   <span>Send</span>
                 </button>
+              </div>
+              
+              {/* Chat Suggestions */}
+              <div className="space-y-2">
+                <p className="text-sm text-gray-500">Try asking:</p>
+                <div className="flex flex-wrap gap-2">
+                  {insightSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setChatMessage(suggestion)}
+                      className="text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1 rounded-full border border-gray-200 transition-colors duration-200"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

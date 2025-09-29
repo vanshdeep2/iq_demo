@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Filter } from 'lucide-react';
+import { Filter, BarChart3 } from 'lucide-react';
 import InsightCard from '../components/InsightCard';
 
-const Dashboard = () => {
+const KPIInsights = () => {
   const [filters, setFilters] = useState({
     category: 'all',
     confidence: 'all',
     impact: 'all'
   });
 
-  // Removed summary cards for cleaner design
-
+  // KPI-specific insights data
   const insights = [
     {
       id: 1,
@@ -23,6 +22,15 @@ const Dashboard = () => {
     },
     {
       id: 2,
+      title: 'First Call Resolution rate dropped to 68%',
+      category: 'Operational',
+      confidence: 'High',
+      impact: 'High',
+      summary: 'FCR rate decreased from 78% to 68%, indicating need for better agent training and knowledge base improvements.',
+      tags: ['FCR', 'Resolution', 'Quality']
+    },
+    {
+      id: 3,
       title: 'Customer satisfaction scores dropped 12% in technical support',
       category: 'Customer',
       confidence: 'High',
@@ -31,31 +39,22 @@ const Dashboard = () => {
       tags: ['Customer Satisfaction', 'Technical Support', 'Quality']
     },
     {
-      id: 3,
-      title: 'AI agent resolution rate improved to 78% for simple queries',
-      category: 'AI Performance',
-      confidence: 'Medium',
-      impact: 'Medium',
-      summary: 'AI agents now successfully resolve 78% of simple customer queries without human escalation, up from 65% last quarter.',
-      tags: ['AI Agents', 'Automation', 'Efficiency']
-    },
-    {
       id: 4,
-      title: 'Top customer issue: "Password reset" accounts for 34% of calls',
-      category: 'Customer Issues',
+      title: 'Agent utilization rate at 89% - approaching capacity limits',
+      category: 'Operational',
       confidence: 'High',
       impact: 'Medium',
-      summary: 'Password reset requests dominate customer interactions, suggesting need for improved self-service options or simplified authentication process.',
-      tags: ['Password Reset', 'Self-Service', 'Volume']
+      summary: 'Agent utilization has increased to 89%, indicating potential need for additional staffing or workload redistribution.',
+      tags: ['Utilization', 'Capacity', 'Staffing']
     },
     {
       id: 5,
-      title: 'Agent burnout indicators: 45% report high stress levels',
-      category: 'Agent Wellbeing',
-      confidence: 'Medium',
+      title: 'Average wait time increased to 3.2 minutes',
+      category: 'Operational',
+      confidence: 'High',
       impact: 'High',
-      summary: 'Survey data shows 45% of agents report high stress levels, with peak stress during technical issue escalations and angry customer interactions.',
-      tags: ['Agent Stress', 'Burnout', 'Wellbeing']
+      summary: 'Customer wait times have increased from 2.1 to 3.2 minutes, impacting customer experience and satisfaction.',
+      tags: ['Wait Time', 'Customer Experience', 'Queue Management']
     },
     {
       id: 6,
@@ -77,12 +76,12 @@ const Dashboard = () => {
     },
     {
       id: 8,
-      title: 'Product defect reports increased 67% after software update',
-      category: 'Product Issues',
+      title: 'Service Level Agreement compliance at 85%',
+      category: 'Operational',
       confidence: 'High',
-      impact: 'High',
-      summary: 'Customer reports of software bugs and defects increased significantly following the latest product update, requiring immediate attention.',
-      tags: ['Product Defects', 'Software Update', 'Bugs']
+      impact: 'Medium',
+      summary: 'SLA compliance dropped from 92% to 85%, primarily due to increased call volume and complexity.',
+      tags: ['SLA', 'Compliance', 'Performance']
     }
   ];
 
@@ -98,8 +97,11 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-1">Monitor your business insights and analytics</p>
+          <div className="flex items-center gap-3 mb-2">
+            <BarChart3 className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-bold text-gray-900">KPI Insights</h1>
+          </div>
+          <p className="text-gray-600 mt-1">Monitor key performance indicators and operational metrics</p>
         </div>
       </div>
 
@@ -107,7 +109,7 @@ const Dashboard = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center space-x-4 mb-4">
           <Filter className="w-5 h-5 text-gray-600" />
-          <h2 className="text-lg font-semibold text-gray-900">Filter Insights</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Filter KPI Insights</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -121,9 +123,6 @@ const Dashboard = () => {
               <option value="Operational">Operational</option>
               <option value="Customer">Customer</option>
               <option value="AI Performance">AI Performance</option>
-              <option value="Customer Issues">Customer Issues</option>
-              <option value="Agent Wellbeing">Agent Wellbeing</option>
-              <option value="Product Issues">Product Issues</option>
             </select>
           </div>
           <div>
@@ -165,7 +164,7 @@ const Dashboard = () => {
 
       {/* Insights by Category */}
       <div className="space-y-8">
-        {['Operational', 'Customer', 'AI Performance', 'Customer Issues', 'Agent Wellbeing', 'Product Issues'].map((category) => {
+        {['Operational', 'Customer', 'AI Performance'].map((category) => {
           const categoryInsights = filteredInsights.filter(insight => insight.category === category);
           if (categoryInsights.length === 0) return null;
           
@@ -194,4 +193,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default KPIInsights;

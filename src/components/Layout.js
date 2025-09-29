@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { BarChart3, FileText, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { BarChart3, FileText, Search, ChevronLeft, ChevronRight, TrendingUp, Brain } from 'lucide-react';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -10,7 +10,8 @@ const Layout = ({ children }) => {
   const isDetailedPage = location.pathname.includes('/insight/') || location.pathname.includes('/action/');
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: BarChart3 },
+    { name: 'KPI Insights', href: '/', icon: TrendingUp },
+    { name: 'Analyst Insights', href: '/analyst-insights', icon: Brain },
     { name: 'Queries', href: '/queries', icon: Search },
     { name: 'Documents', href: '/documents', icon: FileText },
   ];
